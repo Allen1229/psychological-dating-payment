@@ -168,37 +168,66 @@ function switchView(hideEl, showEl) {
     }, 400); 
 }
 
+function copyText(text) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text);
+        } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+        }
+    } catch(e) {}
+}
+
 function bindShareButtons() {
     const shareText = () => `男女約會結帳潛意識測驗！我在感情中是【${window.currentResultTitle}】！你覺得約會該誰請客？快來測測你的底線！`;
     const shareUrl = window.location.href;
 
     document.getElementById('share-fb-link').addEventListener('click', () => {
+        const fullText = shareText() + ' ' + shareUrl;
+        copyText(fullText);
+        alert('已為您複製結果！\n若 FB 沒出現文字，直接貼上即可！');
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
     });
 
     document.getElementById('share-threads').addEventListener('click', () => {
-        window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(shareText() + "\n" + shareUrl)}`, '_blank');
+        const fullText = shareText() + ' ' + shareUrl;
+        copyText(fullText);
+        alert('已為您複製結果！\n若 Threads 沒出現文字，直接貼上即可！');
+        window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(fullText)}`, '_blank');
     });
 
     document.getElementById('share-line').addEventListener('click', () => {
-        window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText() + "\n" + shareUrl)}`, '_blank');
+        const fullText = shareText() + ' ' + shareUrl;
+        copyText(fullText);
+        alert('已為您複製結果！\n若 LINE 沒出現文字，直接貼上即可！');
+        window.open(`https://line.me/R/msg/text/?${encodeURIComponent(fullText)}`, '_blank');
     });
 
     document.getElementById('share-ig').addEventListener('click', () => {
-        navigator.clipboard.writeText(shareText() + "\n" + shareUrl).then(() => {
-            showToast('已複製測驗結果！快去 IG 限動貼上吧！');
-        }).catch(() => {
-            showToast('複製失敗...');
-        });
+        const fullText = shareText() + '\n' + shareUrl;
+        copyText(fullText);
+        showToast('已為您複製結果！請前往 IG 限動或貼文，直接貼上即可分享！');
     });
 
-    const nativeShare = document.getElementById('share-fb'); // re-using id for native share due to structure
+    const nativeShare = document.getElementById('share-fb');
     if (nativeShare) {
         nativeShare.addEventListener('click', async () => {
+            const fullText = shareText() + ' ' + shareUrl;
             if (navigator.share) {
-                try { await navigator.share({ title: '約會結帳測驗', text: shareText(), url: shareUrl }); } catch (e) {}
+                try { await navigator.share({ title: '約會結帳測驗', text: shareText(), url: shareUrl }); } catch (e) {
+                    copyText(fullText);
+                    showToast('測驗結果與連結已複製！');
+                }
             } else {
-                showToast('裝置不支援原生分享');
+                copyText(fullText);
+                showToast('測驗結果與連結已複製！');
             }
         });
     }
