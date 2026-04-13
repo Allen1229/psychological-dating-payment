@@ -62,13 +62,13 @@ const quizData = {
             title: "明星3缺1",
             description: "台灣最多人玩16張麻將，1秒湊桌全真人線上打麻將！知名藝人正版授權，等你來+1。",
             icon: "https://www.gametower.com.tw/images/index/games/pic_iStar31.png",
-            url: "https://www.gametower.com.tw/"
+            url: "https://www.gametower.com.tw/Games/FreePlay/Mj/star31/?utm_source=PSY-dating-payment&utm_medium=display&utm_campaign=mega_traffic_2026&utm_content=1rd_banner"
         },
         {
             title: "玩星派對",
             description: "全台第一休閒娛樂平台，收納各種類型的休閒遊戲讓您盡情暢玩！豐富的養成元素，培養專屬二次元角色。",
             icon: "https://www.gametower.com.tw/images/index/games/pic_pg.png",
-            url: "https://www.gametower.com.tw/"
+            url: "https://www.gametower.com.tw/Games/PG/?utm_source=PSY-dating-payment&utm_medium=display&utm_campaign=mega_traffic_2026&utm_content=2rd_banner"
         }
     ],
     results: {
